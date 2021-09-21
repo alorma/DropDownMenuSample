@@ -12,27 +12,38 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.alorma.dropdownmenusample.ui.theme.DropdownMenuSampleTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
       DropdownMenuSampleTheme {
+        val coroutineScope = rememberCoroutineScope()
+        val scaffoldState = rememberScaffoldState()
+
         Scaffold(
+          scaffoldState = scaffoldState,
           topBar = {
             TopAppBar(
               title = { Text(stringResource(R.string.app_name)) },
               actions = {
                 MoreAction(
-                  onItem1Click = {},
-                  onItem2Click = {}
+                  onItem1Click = {
+                    coroutineScope.launch { scaffoldState.snackbarHostState.showSnackbar("Item 1 clicked") }
+                  },
+                  onItem2Click = {
+                    coroutineScope.launch { scaffoldState.snackbarHostState.showSnackbar("Item 2 clicked") }
+                  }
                 )
               }
             )
