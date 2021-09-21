@@ -3,9 +3,12 @@ package com.alorma.dropdownmenusample
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -52,7 +55,11 @@ class MainActivity : ComponentActivity() {
     onItem1Click: () -> Unit,
     onItem2Click: () -> Unit,
   ) {
-    DropdownIconMenu {
+    DropdownIconMenu(
+      anchorIcon = {
+        Icon(imageVector = Icons.Default.Star, contentDescription = null)
+      }
+    ) {
       MenuItem(onClick = onItem1Click) { Text(text = "Item 1") }
       MenuItem(onClick = onItem2Click) { Text(text = "Item 2") }
     }

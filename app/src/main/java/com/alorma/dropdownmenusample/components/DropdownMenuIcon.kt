@@ -10,11 +10,12 @@ import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.LocalContentColor
+import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MenuDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +38,12 @@ class DropdownScopeImpl(
 
 @Composable
 fun DropdownIconMenu(
+  anchorIcon: @Composable () -> Unit = {
+    Icon(
+      imageVector = Icons.Default.MoreVert,
+      contentDescription = null,
+    )
+  },
   content: @Composable DropdownScope.() -> Unit,
 ) {
   var showPopup by remember { mutableStateOf(false) }
@@ -47,11 +54,9 @@ fun DropdownIconMenu(
     IconButton(
       onClick = { showPopup = true }
     ) {
-      Icon(
-        imageVector = Icons.Default.MoreVert,
-        contentDescription = null,
-        tint = LocalContentColor.current.copy(alpha = ContentAlpha.medium)
-      )
+      CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+        anchorIcon()
+      }
     }
     DropdownMenu(
       expanded = showPopup,
